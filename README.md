@@ -62,3 +62,5 @@ Feel free to add additional features or improvements by contributing!
 # playback-rate-extension
 Bypass the normal 2x limit for playback, current range : [0.0625,16]
 skip ads : ) 
+making this the spicetify for youtube
+
