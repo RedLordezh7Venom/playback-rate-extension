@@ -13,7 +13,7 @@ This Chrome extension allows you to control the playback speed of videos on web 
 - **Bypass YouTube's Speed Limit**: The extension allows playback rates above YouTube's usual limits (up to 4x).
 
 ---
-
+ 
 ## Installation
 
 1. **Clone the repository**:
