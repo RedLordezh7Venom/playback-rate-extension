@@ -27,7 +27,6 @@ This Chrome extension allows you to control the playback speed of videos on web 
    - Click on "Load unpacked" and select the folder where you cloned the project.
 
 ---
-
 ## Usage
 
 1. **Increase Playback Speed**: Press the `>` key.
