@@ -16,6 +16,7 @@ This Chrome extension allows you to control the playback speed of videos on web 
  
 ## Installation
 
+
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/your-username/video-playback-speed-controller.git
