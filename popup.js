@@ -26,4 +26,33 @@ document.getElementById('reset-speed').addEventListener('click', () => {
       console.log('No video element found on this page.');
     }
   }
+
+  document.getElementById('toggle-side-panel').addEventListener('click', () => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs[0] && tabs[0].id) {
+            chrome.tabs.sendMessage(tabs[0].id, { type: 'toggle_side_panel' });
+        }
+    });
+  });
+
+  document.getElementById('view-saved').addEventListener('click', () => {
+    const savedVideosList = document.getElementById('saved-videos-list');
+    savedVideosList.innerHTML = ''; // Clear previous list
+
+    const savedVideos = JSON.parse(localStorage.getItem('savedVideos')) || [];
+
+    if (savedVideos.length > 0) {
+        savedVideos.forEach((videoURL, index) => {
+            const listItem = document.createElement('div');
+            const link = document.createElement('a');
+            link.href = videoURL;
+            link.textContent = `Video ${index + 1}`;
+            link.target = '_blank';
+            listItem.appendChild(link);
+            savedVideosList.appendChild(listItem);
+        });
+    } else {
+        savedVideosList.textContent = 'No saved videos yet.';
+    }
+});
   

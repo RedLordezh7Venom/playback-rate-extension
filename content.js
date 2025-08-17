@@ -68,5 +68,64 @@ document.addEventListener('keydown', function(event) {
         }
     }
 
-    
+    // Snap video (Shift + S)
+    if (event.shiftKey && event.key === 'S') {
+        const video = document.querySelector('video');
+        if (video) {
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const dataURL = canvas.toDataURL('image/png');
+            const newTab = window.open();
+            newTab.document.body.innerHTML = `<img src="${dataURL}" width="100%">`;
+        } else {
+            console.log('Video element not found!');
+        }
+    }
+
+    // Save video (Shift + K)
+    if (event.shiftKey && event.key === 'K') {
+        const videoURL = window.location.href;
+        let savedVideos = JSON.parse(localStorage.getItem('savedVideos')) || [];
+        if (!savedVideos.includes(videoURL)) {
+            savedVideos.push(videoURL);
+            localStorage.setItem('savedVideos', JSON.stringify(savedVideos));
+            alert('Video saved!');
+        } else {
+            alert('Video already saved!');
+        }
+    }
+});
+
+window.addEventListener('message', (event) => {
+    if (event.data.type === 'apply_filter') {
+        const video = document.querySelector('video');
+        if (video) {
+            video.style.filter = event.data.filter;
+        }
+    }
+});
+
+let sidePanel;
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.type === 'toggle_side_panel') {
+        if (sidePanel) {
+            sidePanel.style.display = sidePanel.style.display === 'none' ? 'block' : 'none';
+        } else {
+            sidePanel = document.createElement('iframe');
+            sidePanel.id = 'video-tools-side-panel';
+            sidePanel.src = chrome.runtime.getURL('sidepanel.html');
+            sidePanel.style.position = 'fixed';
+            sidePanel.style.top = '0';
+            sidePanel.style.right = '0';
+            sidePanel.style.width = '350px';
+            sidePanel.style.height = '100%';
+            sidePanel.style.border = 'none';
+            sidePanel.style.zIndex = '10001';
+            document.body.appendChild(sidePanel);
+        }
+    }
 });
