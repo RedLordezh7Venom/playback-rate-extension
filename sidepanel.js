@@ -16,4 +16,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         filterButtonsContainer.appendChild(button);
     }
+
+    const bassSlider = document.getElementById('bass');
+    const trebleSlider = document.getElementById('treble');
+    const balanceSlider = document.getElementById('balance');
+
+    function sendEqualizerSettings() {
+        window.parent.postMessage({
+            type: 'apply_equalizer',
+            bass: bassSlider.value,
+            treble: trebleSlider.value,
+            balance: balanceSlider.value
+        }, '*');
+    }
+
+    bassSlider.addEventListener('input', sendEqualizerSettings);
+    trebleSlider.addEventListener('input', sendEqualizerSettings);
+    balanceSlider.addEventListener('input', sendEqualizerSettings);
 });

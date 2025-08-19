@@ -24,3 +24,12 @@ body {
 #filter-buttons button:hover {
     background-color: #e0e0e0;
 }
+
+#equalizer-controls div {
+    margin-bottom: 10px;
+}
+
+#equalizer-controls label {
+    display: inline-block;
+    width: 50px;
+}

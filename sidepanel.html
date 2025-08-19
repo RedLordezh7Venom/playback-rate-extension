@@ -12,6 +12,22 @@
         <div id="panel-content">
             <h3>Video Filters</h3>
             <div id="filter-buttons"></div>
+            <hr>
+            <h3>Audio Equalizer</h3>
+            <div id="equalizer-controls">
+                <div>
+                    <label for="bass">Bass</label>
+                    <input type="range" id="bass" min="-10" max="10" value="0" step="1">
+                </div>
+                <div>
+                    <label for="treble">Treble</label>
+                    <input type="range" id="treble" min="-10" max="10" value="0" step="1">
+                </div>
+                <div>
+                    <label for="balance">Balance</label>
+                    <input type="range" id="balance" min="-1" max="1" value="0" step="0.1">
+                </div>
+            </div>
         </div>
     </div>
     <script src="sidepanel.js"></script>

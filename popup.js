@@ -10,7 +10,7 @@ document.getElementById('reset-speed').addEventListener('click', () => {
           (result) => {
             // Optional: Handle the result or log errors
             if (chrome.runtime.lastError) {
-              console.error(chrome.runtime.lastError);
+              console.error(chrome.runtime.lastError.message);
             }
           }
         );
@@ -30,7 +30,11 @@ document.getElementById('reset-speed').addEventListener('click', () => {
   document.getElementById('toggle-side-panel').addEventListener('click', () => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         if (tabs[0] && tabs[0].id) {
-            chrome.tabs.sendMessage(tabs[0].id, { type: 'toggle_side_panel' });
+            chrome.tabs.sendMessage(tabs[0].id, { type: 'toggle_side_panel' }, response => {
+                if (chrome.runtime.lastError) {
+                    console.error(chrome.runtime.lastError.message);
+                }
+            });
         }
     });
   });

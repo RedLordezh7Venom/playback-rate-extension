@@ -99,11 +99,42 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
+const audioSetups = new WeakMap();
+
 window.addEventListener('message', (event) => {
     if (event.data.type === 'apply_filter') {
         const video = document.querySelector('video');
         if (video) {
             video.style.filter = event.data.filter;
+        }
+    }
+
+    if (event.data.type === 'apply_equalizer') {
+        const video = document.querySelector('video');
+        if (video && video.readyState > 0) {
+            if (!audioSetups.has(video)) {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const source = audioContext.createMediaElementSource(video);
+                const bass = audioContext.createBiquadFilter();
+                bass.type = 'lowshelf';
+                bass.frequency.value = 200;
+                const treble = audioContext.createBiquadFilter();
+                treble.type = 'highshelf';
+                treble.frequency.value = 2000;
+                const panner = audioContext.createStereoPanner();
+
+                source.connect(bass);
+                bass.connect(treble);
+                treble.connect(panner);
+                panner.connect(audioContext.destination);
+
+                audioSetups.set(video, { bass, treble, panner });
+            }
+
+            const { bass, treble, panner } = audioSetups.get(video);
+            bass.gain.value = event.data.bass;
+            treble.gain.value = event.data.treble;
+            panner.pan.value = event.data.balance;
         }
     }
 });
